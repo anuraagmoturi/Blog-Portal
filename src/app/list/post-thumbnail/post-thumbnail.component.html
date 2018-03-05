@@ -1,0 +1,56 @@
+<div class="row post">
+  <div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        List
+      </div>
+      <div class="body">
+        <form class="form">
+          <div class="form-group">
+            <label> Title: </label>
+            <b>{{post.title}}</b>
+            <span style="float: right">
+              <label>Created By:</label>
+              {{post.userCreated}}
+            </span>
+          </div>
+          <div class="form-group">
+            <label >Description: </label>
+            <p>{{post.description}}</p>
+          </div>
+          <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+          <button *ngIf="flag" class="btn btn-success" (click)="like()" [disabled] = "disableBtn">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            Like &nbsp; <a *ngIf="likes"  (click)="viewLikes($event)">{{likes}}</a> </button>
+
+          <button *ngIf="!flag" class="btn btn-danger" (click)="unlike()" [disabled] = "disableBtn">
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+            Unlike &nbsp; <a *ngIf="likes"  (click)="viewLikes($event)">{{likes}}</a> </button>
+
+          <button class="btn btn-primary" (click)="viewComments()">Comments</button>
+          <button class="btn btn-info" (click)="view()">View</button>
+          <br><br>
+
+          <div *ngIf="likeSec" style="background-color: gainsboro">
+           Liked by: {{post.likes.toString()}}
+          </div>
+          <div *ngIf="comSec"  style="background-color: gainsboro">
+            <div *ngFor="let com of post.comments">
+            {{com.userCommented +':'+ com.comment}}
+            </div>
+
+          </div>
+
+          <div>
+            <input class="form-control" name ="comment" type="text" placeholder="Comment" [(ngModel)]="commentDes.comment">
+            <button class="btn btn-primary" (click)="comment()">Comment</button>
+
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

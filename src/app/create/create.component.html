@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Create Post
+      </div>
+      <div class="body">
+        <form class="form">
+          <div class="form-group">
+            <label> Title</label>
+            <input type="text" class="form-control" name="title" [(ngModel)] = "details.title">
+          </div>
+          <div class="form-group">
+            <label >Description</label>
+            <input type="text" class="form-control" name="description" [(ngModel)] = "details.description">
+          </div>
+          <button class="btn btn-primary" (click)="createPost()">Post</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
