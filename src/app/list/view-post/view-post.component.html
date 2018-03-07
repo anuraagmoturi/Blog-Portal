@@ -1,0 +1,74 @@
+<div class="row post" >
+  <div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <b>{{post?.title}}</b>
+        <span style="float: right" class=" glyphicon glyphicon-user">
+          <b>{{post?.userCreated}}</b>
+        </span>
+      </div>
+      <div class="body">
+        <form class="form">
+
+          <div class="form-group" style="padding: 10px" >
+            <p>{{post?.description}}</p>
+          </div>
+
+
+          <!--<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>-->
+          <!--<button *ngIf="flag" class="btn btn-success" (click)="like()" [disabled] = "disableBtn">-->
+            <!--<span class="glyphicon glyphicon-thumbs-up"></span>-->
+            <!--Like &nbsp; <a *ngIf="likes"  (click)="viewLikes($event)">{{likes}}</a> </button>-->
+
+          <!--<button *ngIf="!flag" class="btn btn-danger" (click)="unlike()" [disabled] = "disableBtn">-->
+            <!--<span class="glyphicon glyphicon-thumbs-down"></span>-->
+            <!--Unlike &nbsp; <a *ngIf="likes"  (click)="viewLikes($event)">{{likes}}</a> </button>-->
+
+          <!--<button class="btn btn-primary" (click)="viewComments()">Comments</button>-->
+
+          <br><br>
+
+          <!--<div *ngIf="likeSec" style="background-color: gainsboro">-->
+            <!--Liked by: {{post.likes.toString()}}-->
+          <!--</div>-->
+          <!--<div *ngIf="comSec"  style="background-color: gainsboro">-->
+            <!--<div *ngFor="let com of post.comments">-->
+              <!--{{com.userCommented +':'+ com.comment}}-->
+            <!--</div>-->
+
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<input class="form-control" name ="comment" type="text" placeholder="Comment" [(ngModel)]="commentDes.comment">-->
+            <!--<button class="btn btn-primary" (click)="comment()">Comment</button>-->
+
+          <!--</div>-->
+
+
+        </form>
+      </div>
+    </div>
+
+    <div class="well" *ngIf="post?.likes.length">
+      <span><h5>Liked by:</h5></span>
+      <span *ngFor="let like of post?.likes">{{like}}, &nbsp;</span>
+    </div>
+
+
+    <div class="well" *ngFor="let com of post?.comments">
+      <div class="row">
+        <div class="col-xs-2">
+          <h4>{{com?.userCommented}}</h4>
+        </div>
+        <div class="col-xs-10">
+          <span>{{com?.comment}}</span>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+

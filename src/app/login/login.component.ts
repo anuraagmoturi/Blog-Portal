@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../auth/auth.service";
+import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'app-login',
@@ -8,15 +9,21 @@ import {AuthService} from "../auth/auth.service";
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private _authService:AuthService) { }
+  loginSub = new Subject();
+  constructor(private _authService:AuthService) {
+
+  }
 
   ngOnInit() {
+
   }
 
   details: any = {};
 
   login(){
     this._authService.logInCheck(this.details);
+    this.loginSub.next({flag:true})
+    //return this.loginSub;
   }
 
 }

@@ -1,5 +1,8 @@
 
-<div *ngFor="let post of posts" class="row">
-  <app-post-thumbnail [inPost]="post"></app-post-thumbnail>
+<div *ngIf="posts?.length">
+  <div *ngFor="let post of posts" class="row">
+    <app-post-thumbnail [inPost]="post"></app-post-thumbnail>
+  </div>
 </div>
+
 

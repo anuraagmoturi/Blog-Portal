@@ -87,10 +87,10 @@ app.use(function (req,res,next) {
   console.log(token);
   console.log(" after app.use");
   if(token){
-    console.log("if");
+    console.log("if in token");
     jwt.verify(token,'marlabs-secret-key',function (err,decoded) {
       if(err){
-        console.log("error");
+        console.log("error in token");
         // console.log(err);
       }
       else {
@@ -155,22 +155,27 @@ app.get('/getPost',function (req,res) {
 
 app.post('/likepost',function (req,res) {
   // console.log(req.body);
+  var post_id = req.body.post_id;
+  var user = req.body.user;
   console.log("-----------")
   console.log(req.body.post_id);
   console.log(req.body.user);
   console.log("-------------");
 
-  Post.find({"_id": req.body.post_id}, function (err, docs) {
+  Post.find({"_id": post_id}, function (err, docs) {
     if (err) {
       console.log("error in retrieving likes");
+      res.send(" not liked ");
     } else {
-      console.log(docs);
-      docs[0].likes.push(req.body.user);
+      //console.log(docs);
+      docs[0].likes.push(user);
       docs[0].save(function (err,docs) {
         if(err){
-          console.log("error in liking");
+          //console.log("error in liking");
+          res.send(" not liked ");
         }else{
-          console.log("liked");
+          //console.log("liked");
+          res.send(" liked successfully");
         }
       })
     }
@@ -180,64 +185,7 @@ app.post('/likepost',function (req,res) {
 
 });
 
-// var LikeSchema = mongoose.Schema({
-//   "post_id": String,
-//   "userLiked":String,
-// });
-//
-// var Like = mongoose.model('likes',LikeSchema);
-//
-// app.post('/likepost',function (req,res) {
-//   // console.log(req.body);
-//   console.log("-----------")
-//   console.log(req.body.post_id);
-//   console.log(req.body.user);
-//   console.log("-------------");
-//
-//   var newLike = new Like({
-//     "post_id":req.body.post_id,
-//     "userLiked":req.body.user
-//   });
-//
-//   newLike.save(function (err) {
-//     if(!err){
-//       console.log("New Like Added succesfully");
-//     }else{
-//       console.log("New Like  not Added ");
-//     }
-//   });
-//   },function (err) {
-//     if(!err){
-//
-//       console.log("liked");
-//
-//     }else {
-//       console.log("not liked");
-//     }
-//
-//
-//
-//});
 
-// app.post('/unlike',function (req,res) {
-//   //var cpost = req.body[0].post;
-//
-//   Post.update(req.body[0].post,{
-//     '$pullAll': {
-//       'likes':[req.body[1].user]
-//     }
-//   },function (err) {
-//     if(!err){
-//
-//       console.log("un liked");
-//
-//     }else {
-//       console.log("not unliked");
-//     }
-//
-//   });
-//
-// });
 
 
 app.post('/unlike',function (req,res) {
@@ -245,16 +193,19 @@ app.post('/unlike',function (req,res) {
 
   Post.find({"_id": req.body.post_id}, function (err, docs) {
     if (err) {
-      console.log("error in retrieving likes");
+      //console.log("error in retrieving likes");
+      res.send("unliked not successful");
     } else {
-      console.log(docs);
+      //console.log(docs);
       //docs[0].likes.push(req.body.user);
       docs[0].likes.splice(docs[0].likes.indexOf(req.body.user),1);
       docs[0].save(function (err,docs) {
         if(err){
-          console.log("error in liking");
+         // console.log("error in liking");
+          res.send("unliked not successful");
         }else{
-          console.log("liked");
+          //console.log("unliked  successful");
+          res.send("unliked successful");
         }
       })
     }
@@ -269,26 +220,29 @@ app.post('/unlike',function (req,res) {
 app.post('/comment',function (req,res) {
   // console.log(req.body);
   console.log("-----------")
-  console.log(req.body.post);
+  console.log(req.body.post_id);
   console.log(req.body.comment);
   console.log("-------------");
 
-  Post.find({"_id": req.body.post_id}, function (err, docs) {
+  var post_id = req.body.post_id;
+  var comment = req.body.comment;
+
+  Post.find({"_id": post_id}, function (err, docs) {
     if (err) {
-      console.log("error in retrieving likes");
+      res.send("error in commenting");
     } else {
-      console.log(docs);
+      //console.log(docs);
       //docs[0].likes.push(req.body.user);
       var newComment = {
-        "userCommented": req.body.comment.userCommented,
-        "comment":req.body.comment.comment
+        "userCommented": comment.userCommented,
+        "comment":comment.comment
       }
       docs[0].comments.push(newComment);
       docs[0].save(function (err,docs) {
         if(err){
-          console.log("error in liking");
+          res.send("error in commenting");
         }else{
-          console.log("liked");
+          res.send("Comment successful");
         }
       })
     }
@@ -298,6 +252,21 @@ app.post('/comment',function (req,res) {
 
 });
 
+app.post('/getPostById',function (req,res) {
+  console.log("********");
+  console.log(req.body.post_id);
+  Post.find({"_id": req.body.post_id}, function (err, docs) {
+    if (err) {
+      console.log("error in retrieving single post");
+    } else {
+      console.log(docs);
+      res.send(docs);
+      //docs[0].likes.push(req.body.user);
+    }
+
+
+  });
+});
 
 
 app.listen(2000,function () {

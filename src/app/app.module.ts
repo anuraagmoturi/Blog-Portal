@@ -19,6 +19,7 @@ import { ListComponent } from './list/list.component';
 import { PostThumbnailComponent } from './list/post-thumbnail/post-thumbnail.component';
 import {AuthGuard} from "./auth/auth.guard";
 import {AuthInterceptorService} from "./auth/auth-interceptor.service";
+import { ViewPostComponent } from './list/view-post/view-post.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {AuthInterceptorService} from "./auth/auth-interceptor.service";
     CreateComponent,
     ListComponent,
     PostThumbnailComponent,
+    ViewPostComponent
   ],
   imports: [
     BrowserModule,
@@ -37,11 +39,14 @@ import {AuthInterceptorService} from "./auth/auth-interceptor.service";
     HttpClientModule,
     RouterModule.forRoot([
       { path:'signUp', component: SignupComponent },
-      { path:'logIn', component: LoginComponent },
+      { path:'', component: LoginComponent },
       { path:'create', component: CreateComponent,
         canActivate:[AuthGuard]
       },
       { path:'list', component: ListComponent,
+        canActivate:[AuthGuard]
+      },
+      { path:'post/:id', component: ViewPostComponent,
         canActivate:[AuthGuard]
       },
     ])

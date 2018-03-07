@@ -7,8 +7,10 @@ import {Router} from "@angular/router";
 @Injectable()
 export class AuthService {
 
+  navSubObj = new Subject();
 
   subObj = new Subject();
+  postById = new Subject();
 
   flagobj:any={flag:false};
 
@@ -32,8 +34,8 @@ export class AuthService {
           console.log("cookie set");
           this._cookieService.set('m_token', data.token);
 
-          this.flagobj.flag=true;
-          this.subObj.next(this.flagobj);
+          //this.flagobj.flag=true;
+          this.navSubObj.next(false);
 
           this._router.navigate(['/list']);
 
@@ -89,8 +91,8 @@ export class AuthService {
       });
   }
 
-  comment(Cpost_id,commentObj){
-    this._http.post('http://localhost:2000/comment',{post_id:Cpost_id,comment:commentObj} )
+  comment(post_id,commentObj){
+    this._http.post('http://localhost:2000/comment',{post_id:post_id,comment:commentObj} )
       .subscribe((data: any) =>{
         console.log(data);
 
@@ -98,7 +100,17 @@ export class AuthService {
   }
 
 
-
+  getPostById(post_id){
+    var post;
+    console.log(post_id);
+    this._http.post('http://localhost:2000/getPostById',{post_id:post_id })
+      .subscribe((data: any) =>{
+        console.log(data);
+        post = data[0];
+        this.postById.next(post);
+      });
+    return this.postById;
+  }
 
 
 
